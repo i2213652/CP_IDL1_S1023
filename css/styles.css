@@ -1,0 +1,61 @@
+body {
+  background: #44a08d; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #093637,
+    #44a08d
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #093637,
+    #44a08d
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.card {
+  border-radius: 20px;
+  border: none;
+}
+
+.card-text {
+  margin: 0%;
+}
+
+.card {
+  margin-top: 10px;
+  height: 290px !important;
+}
+
+.products {
+  margin-top: 5%;
+}
+
+.product-image {
+  align-self: center;
+  width: 150px !important;
+  height: 150px !important;
+
+  cursor: pointer;
+  -webkit-transition: all 0.9s ease;
+  /* Safari y Chrome */
+  -moz-transition: all 0.9s ease;
+  /* Firefox */
+  -o-transition: all 0.9s ease;
+  /* IE 9 */
+  -ms-transition: all 0.9s ease;
+  /* Opera */
+  transition: all 0.9s ease;
+}
+
+.product-image:hover {
+  -webkit-transform: scale(1.5);
+  -moz-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  -o-transform: scale(1.5);
+  transform: scale(1.5);
+}
+
+.star {
+  color: rgb(202, 171, 34);
+}

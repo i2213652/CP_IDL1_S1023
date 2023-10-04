@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PRODUCTOS</title>
+
+    <!-- Adding Bootstrap  -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <!-- Adding Fontawesome  -->
+    <link rel="stylesheet" href="vendor/fontawesome/all.min.css" />
+
+    <!-- Adding Vue  -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <!-- Adding own style  -->
+    <link href="/css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="app">
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+          <a
+            class="navbar-brand"
+            :href="`index.html?shopping_car=${encodeURIComponent(JSON.stringify(car))}`"
+          >
+            <i class="fas fa-home"></i> HOME</a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarCollapse"
+            aria-controls="navbarCollapse"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  :href="`products.html?shopping_car=${encodeURIComponent(JSON.stringify(car))}`"
+                  >PRODUCTOS</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  :href="`car.html?shopping_car=${encodeURIComponent(JSON.stringify(car))}`"
+                  >CARRITO</a
+                >
+              </li>
+            </ul>
+            <form class="d-flex">
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Buscar"
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-success" type="submit">
+                Buscar
+              </button>
+            </form>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container products">
+        <div class="row">
+          <div class="col-md-3" v-for="(item,index) in products" :key="index">
+            <div class="card">
+              <img
+                :src="'images/'+item.imagen"
+                class="card-img-top product-image"
+                :alt="item.imagen"
+              />
+
+              <div class="card-body row col-md-12">
+                <div class="col-md-8">
+                  <p
+                    class="card-text"
+                    style="font-size: 14px; font-weight: bolder"
+                  >
+                    {{ item.nombre}}
+                  </p>
+                  <p class="card-text">S/ {{ item.precio.toFixed(2)}}</p>
+                  <p
+                    class="card-text"
+                    style="font-style: italic; font-size: 10px"
+                  >
+                    {{ item.stock}} unidad(es) en stock
+                  </p>
+
+                  <span>
+                    <div
+                      id="rating1"
+                      class="star-rating"
+                      role="rating"
+                      data-rating="3"
+                    >
+                      <span
+                        v-for="count in item.rating"
+                        :key="count"
+                        class="star"
+                        :data-value="count"
+                        >&#9733;</span
+                      >
+                    </div></span
+                  >
+                </div>
+                <div class="col-md-4 text-center">
+                  <label class="form-control-label">Cantidad</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    :max="item.stock"
+                    min="0"
+                    value="1"
+                  />
+                  <button
+                    class="btn btn-success mt-2"
+                    type="button"
+                    title="Añadir a carrito"
+                    @click="AddToCar(item)"
+                  >
+                    <span class="icon">
+                      <i class="fas fa-cart-plus"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Adding Bootstrap JS  -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      var app = new Vue({
+        el: "#app",
+
+        data() {
+          return {
+            products: [],
+            car: [],
+          };
+        },
+        mounted() {
+          this.products.push(
+            {
+              id: 1,
+              nombre: "AUDIFONOS HX",
+              marca: "HX",
+              precio: 150,
+              stock: 8,
+              rating: 5,
+              imagen: "audifonos_hx.jpg",
+            },
+            {
+              id: 1,
+              nombre: "AUDIFONOS",
+              marca: "HX",
+              precio: 150,
+              stock: 8,
+              rating: 5,
+              imagen: "audifonos_hx.jpg",
+            },
+            {
+              id: 1,
+              nombre: "AUDIFONOS",
+              marca: "HX",
+              precio: 150,
+              stock: 8,
+              rating: 5,
+              imagen: "audifonos_hx.jpg",
+            },
+            {
+              id: 1,
+              nombre: "AUDIFONOS",
+              marca: "HX",
+              precio: 150,
+              stock: 8,
+              rating: 5,
+              imagen: "audifonos_hx.jpg",
+            },
+            {
+              id: 1,
+              nombre: "AUDIFONOS",
+              marca: "HX",
+              precio: 150,
+              stock: 8,
+              rating: 5,
+              imagen: "audifonos_hx.jpg",
+            },
+            {
+              id: 1,
+              nombre: "AUDIFONOS",
+              marca: "HX",
+              precio: 150,
+              stock: 8,
+              rating: 5,
+              imagen: "audifonos_hx.jpg",
+            },
+            {
+              id: 1,
+              nombre: "AUDIFONOS",
+              marca: "HX",
+              precio: 150,
+              stock: 8,
+              rating: 5,
+              imagen: "audifonos_hx.jpg",
+            },
+            {
+              id: 1,
+              nombre: "AUDIFONOS",
+              marca: "HX",
+              precio: 150,
+              stock: 8,
+              rating: 5,
+              imagen: "audifonos_hx.jpg",
+            },
+            {
+              id: 1,
+              nombre: "AUDIFONOS",
+              marca: "HX",
+              precio: 150,
+              stock: 8,
+              rating: 5,
+              imagen: "audifonos_hx.jpg",
+            },
+            {
+              id: 1,
+              nombre: "AUDIFONOS",
+              marca: "HX",
+              precio: 150,
+              stock: 8,
+              rating: 5,
+              imagen: "audifonos_hx.jpg",
+            }
+          );
+        },
+        created() {
+          const urlParams = new URLSearchParams(window.location.search);
+          let params = urlParams.get("shopping_car");
+
+          if (params) {
+            this.car = JSON.parse(decodeURIComponent(params));
+          }
+        },
+
+        methods: {
+          AddToCar(item) {
+            this.car.push(item);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
