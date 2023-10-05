@@ -49,14 +49,17 @@
                 <a
                   class="nav-link"
                   :href="`products.html?shopping_car=${encodeURIComponent(JSON.stringify(car))}`"
-                  >PRODUCTOS</a
+                  ><i class="fas fa-cubes"></i> PRODUCTOS</a
                 >
               </li>
               <li class="nav-item">
                 <a
                   class="nav-link active"
                   :href="`car.html?shopping_car=${encodeURIComponent(JSON.stringify(car))}`"
-                  >CARRITO</a
+                  ><i class="fas fa-shopping-cart"></i> CARRITO
+                  <span class="badge bg-danger" v-if="quantity_car >0"
+                    >{{quantity_car}}</span
+                  ></a
                 >
               </li>
             </ul>
@@ -75,68 +78,115 @@
         </div>
       </nav>
 
-      <div class="container products">
+      <div class="container">
         <div class="row">
-          <div class="col-md-3" v-for="(item,index) in car" :key="index">
-            <div class="card">
-              <img
-                :src="'images/'+item.imagen"
-                class="card-img-top product-image"
-                :alt="item.imagen"
-              />
+          <div class="col-md-12">
+            <table class="table table-light table-responsive car-table">
+              <thead>
+                <tr align="center">
+                  <th>#</th>
+                  <th>Producto</th>
 
-              <div class="card-body row col-md-12">
-                <div class="col-md-8">
-                  <p
-                    class="card-text"
-                    style="font-size: 14px; font-weight: bolder"
-                  >
-                    {{ item.nombre}}
-                  </p>
-                  <p class="card-text">S/ {{ item.precio.toFixed(2)}}</p>
-                  <p
-                    class="card-text"
-                    style="font-style: italic; font-size: 10px"
-                  >
-                    {{ item.stock}} unidad(es) en stock
-                  </p>
+                  <th>Precio</th>
+                  <th>Cantidad</th>
+                  <th>SubTotal</th>
+                  <th>Quitar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item,index) in car" :key="index">
+                  <td>{{index+1}}</td>
+                  <td>
+                    {{item.nombre}}
+                    <img
+                      :src="'images/'+item.imagen"
+                      class="card-img-top car-image"
+                      :alt="item.imagen"
+                    />
+                  </td>
 
-                  <span>
-                    <div
-                      id="rating1"
-                      class="star-rating"
-                      role="rating"
-                      data-rating="3"
+                  <td align="right">S/ {{item.precio.toFixed(2)}}</td>
+                  <td align="center">{{item.cantidad_seleccionada}}</td>
+                  <td align="right">
+                    S/ {{(item.precio * item.cantidad_seleccionada).toFixed(2)}}
+                  </td>
+                  <td align="center">
+                    <button
+                      class="btn btn-danger"
+                      type="button"
+                      title="Retirar a carrito"
+                      @click="Remove(item)"
                     >
-                      <span
-                        v-for="count in item.rating"
-                        :key="count"
-                        class="star"
-                        :data-value="count"
-                        >&#9733;</span
-                      >
-                    </div></span
-                  >
-                </div>
-                <div class="col-md-4 text-center">
-                  <label class="form-control-label">Cantidad</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    :max="item.stock"
-                    min="0"
-                    value="1"
-                  />
-                  <button
-                    class="btn btn-danger mt-2"
-                    type="button"
-                    title="Añadir a carrito"
-                  >
-                    <span class="icon">
-                      <i class="fas fa-trash"></i>
-                    </span>
-                  </button>
-                </div>
+                      <span class="icon">
+                        <i class="fas fa-trash"></i>
+                      </span>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="4" align="right">TOTAL</td>
+                  <td align="right">S/ {{total_car.toFixed(2)}}</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+
+            <div class="text-center mb-3">
+              <button
+                class="btn btn-primary"
+                type="button"
+                title="Realizar compra"
+                @click="pay_mode = true"
+              >
+                <span class="icon">
+                  <i class="fas fa-credit-card"></i>
+                </span>
+                <span class="text">REALIZAR COMPRA</span>
+              </button>
+            </div>
+
+            <div class="bg-white p-3" v-if="pay_mode">
+              <div class="container">
+                <form>
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label"
+                      >DIRECCIÓN DE ENVÍO</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                    />
+                    <div id="emailHelp" class="form-text">
+                      Ingrese la dirección donde recibirá el/los producto(s).
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label"
+                      >REFERENCIA DE DIRECCIÓN</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="exampleInputPassword1"
+                    />
+                  </div>
+                  <div class="mb-3 form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      id="exampleCheck1"
+                    />
+                    <label class="form-check-label" for="exampleCheck1"
+                      >Estoy de acuerdo con la política de envíos</label
+                    >
+                  </div>
+                </form>
+                <button class="btn btn-primary" @click="Pay">PAGAR</button>
+                <button class="btn btn-danger">CANCELAR</button>
               </div>
             </div>
           </div>
@@ -158,15 +208,52 @@
         data() {
           return {
             car: [],
+            pay_mode: false,
           };
         },
+        computed: {
+          total_car() {
+            let sum = this.car.reduce((accumulator, currentValue) => {
+              let subtotal =
+                currentValue.cantidad_seleccionada * currentValue.precio;
+              return accumulator + subtotal;
+            }, 0);
+            return sum;
+          },
+
+          quantity_car() {
+            return this.car.length;
+          },
+        },
         created() {
-          const urlParams = new URLSearchParams(window.location.search);
+          let urlParams = new URLSearchParams(window.location.search);
           let params = urlParams.get("shopping_car");
 
           if (params) {
             this.car = JSON.parse(decodeURIComponent(params));
           }
+        },
+
+        methods: {
+          Remove(index) {
+            let remove_confirm = confirm(
+              "¿Deseas retirar este producto del carrito?"
+            );
+            if (remove_confirm) {
+              this.car.splice(index, 1);
+            }
+          },
+
+          Pay() {
+            let pay_confirm = confirm("¿Deseas efectuar el pago?");
+            console.log(pay_confirm);
+            if (pay_confirm) {
+              this.car = [];
+              this.pay_mode = false;
+
+              alert("PAGO EXITOSO");
+            }
+          },
         },
       });
     </script>

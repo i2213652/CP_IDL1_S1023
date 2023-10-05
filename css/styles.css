@@ -24,9 +24,20 @@ body {
 
 .card {
   margin-top: 10px;
-  height: 290px !important;
+  height: 300px !important;
 }
 
+.carousel-container {
+  margin-top: 150px !important;
+}
+
+.carousel-caption {
+  border-radius: 10px;
+  background-color: #ece90d;
+  color: #093637 !important;
+  font-weight: bolder;
+  font-size: 20px !important;
+}
 .products {
   margin-top: 5%;
 }
@@ -58,4 +69,33 @@ body {
 
 .star {
   color: rgb(202, 171, 34);
+}
+
+.car-table {
+  margin-top: 20%;
+}
+
+.car-image {
+  align-self: center;
+  width: 50px !important;
+  height: 50px !important;
+
+  cursor: pointer;
+  -webkit-transition: all 0.9s ease;
+  /* Safari y Chrome */
+  -moz-transition: all 0.9s ease;
+  /* Firefox */
+  -o-transition: all 0.9s ease;
+  /* IE 9 */
+  -ms-transition: all 0.9s ease;
+  /* Opera */
+  transition: all 0.9s ease;
+}
+
+.car-image:hover {
+  -webkit-transform: scale(5);
+  -moz-transform: scale(5);
+  -ms-transform: scale(5);
+  -o-transform: scale(5);
+  transform: scale(5);
 }
